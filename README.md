@@ -18,5 +18,7 @@ Proyek ini mensimulasikan beberapa thread yang membaca dan menulis ke memori ber
 - Statistik performa: cache hit, cache miss, invalidasi
 - Visualisasi hasil dengan `matplotlib`
 
+## 🧪 Hasil Simulasi
+![Perbandingan Performa Cache](./Screenshot%202025-05-10%20083043.png)
 
 
