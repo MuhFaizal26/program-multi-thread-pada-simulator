@@ -18,5 +18,5 @@ Proyek ini mensimulasikan beberapa thread yang membaca dan menulis ke memori ber
 - Statistik performa: cache hit, cache miss, invalidasi
 - Visualisasi hasil dengan `matplotlib`
 
-## 🧠 Arsitektur
+
 
