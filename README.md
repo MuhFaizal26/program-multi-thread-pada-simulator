@@ -57,13 +57,15 @@ Proyek ini mensimulasikan beberapa thread yang membaca dan menulis ke memori ber
 * Mengorbankan kecepatan karena sering terjadi invalidasi dan cache miss.
 * Sangat cocok untuk sistem yang membutuhkan **integritas data**, seperti sistem operasi, jaringan sinkron, atau simulasi ilmiah yang presisi.
 ---
+## ⚖️ Perbandingan Kinerja
 
-## 🧾 Ringkasan
-
-| Mode Simulasi        | Performa Cache              | Konsistensi Data      |
-|----------------------|-----------------------------|------------------------|
-| Tanpa Koherensi      | ✅ Cepat, efisien            | ❌ Tidak konsisten      |
-| Dengan Koherensi     | ⚠️ Lebih lambat              | ✅ Konsisten dan akurat |
+| Aspek                | Tanpa Koherensi  | Dengan Koherensi |
+| -------------------- | ---------------- | ---------------- |
+| **Cache Hit**        | ✅ 16             | ⚠️ 1             |
+| **Cache Miss**       | 🟢 0             | 🔴 19            |
+| **Invalidasi**       | 🚫 0             | 🔁 20            |
+| **Konsistensi Data** | ❌ Tidak terjamin | ✅ Terjamin       |
+| **Performa Akses**   | 🚀 Sangat cepat  | 🐢 Lebih lambat  |
 
 ## 📌 Kesimpulan
 
