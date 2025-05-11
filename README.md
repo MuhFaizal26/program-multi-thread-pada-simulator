@@ -22,26 +22,40 @@ Proyek ini mensimulasikan beberapa thread yang membaca dan menulis ke memori ber
 
 ![Perbandingan Performa Cache](./Screenshot%202025-05-10%20083043.png)
 
-| Aspek        | Tanpa Koherensi | Dengan Koherensi | Catatan                                                                 |
-|--------------|------------------|------------------|-------------------------------------------------------------------------|
-| Cache Hit    | 🟦 16             | 🟧 4              | Hit tinggi tanpa koherensi karena data tidak pernah di-*invalidate*.    |
-| Cache Miss   | 🟦 1              | 🟧 13             | Miss meningkat karena invalidasi membuat cache harus di-refresh.       |
-| Invalidation | 🟦 0              | 🟧 23             | Invalidasi aktif menjaga konsistensi antar cache.                       |
+### 1. Tanpa Koherensi
+
+```python
+{'cache_hit': 16, 'cache_miss': 0, 'invalidation': 0}
+```
+
+* **Banyak cache hit (16)** menunjukkan performa tinggi karena data dibaca langsung dari cache lokal.
+* **Tidak ada invalidasi**, yang artinya setiap thread menyimpan versinya sendiri dari data.
+* **Potensi besar inkonsistensi nilai** antar thread.
+
+### 2. Dengan Koherensi (Write-Invalidate)
+
+```python
+{'cache_hit': 1, 'cache_miss': 19, 'invalidation': 20}
+```
+
+* **Cache hit sangat rendah (1)** karena protokol invalidasi menyebabkan cache tidak bisa digunakan berulang.
+* **Cache miss meningkat drastis (19)** akibat cache yang terus-menerus di-invalidasi.
+* **Invalidasi tinggi (20)** mencerminkan upaya menjaga konsistensi data global.
 
 ---
 
 ## 🔍 Interpretasi Hasil
+### Tanpa Koherensi:
 
-### Tanpa Koherensi
-- ✅ **Cache hit tinggi (16)** → Performa cepat.
-- ❌ **Tidak ada invalidasi** → Data antar-thread bisa tidak sinkron.
-- ⚠️ Cocok untuk sistem *non-kritis* yang tidak butuh konsistensi sempurna.
+* Menghasilkan performa optimal karena semua thread bebas menggunakan cache masing-masing.
+* Namun, tidak menjamin bahwa data yang dibaca thread adalah nilai terbaru.
+* Rentan terhadap race condition dan inkonsistensi nilai jika terjadi update bersamaan.
 
-### Dengan Koherensi
-- ⚠️ **Cache miss meningkat** karena setiap penulisan meng-invalidate cache lain.
-- ✅ **Data selalu konsisten** antar thread.
-- Cocok untuk sistem *kritis* yang butuh akurasi tinggi.
+### Dengan Koherensi:
 
+* Menjamin setiap thread membaca nilai terbaru dengan protokol write-invalidate.
+* Mengorbankan kecepatan karena sering terjadi invalidasi dan cache miss.
+* Sangat cocok untuk sistem yang membutuhkan **integritas data**, seperti sistem operasi, jaringan sinkron, atau simulasi ilmiah yang presisi.
 ---
 
 ## 🧾 Ringkasan
@@ -50,6 +64,16 @@ Proyek ini mensimulasikan beberapa thread yang membaca dan menulis ke memori ber
 |----------------------|-----------------------------|------------------------|
 | Tanpa Koherensi      | ✅ Cepat, efisien            | ❌ Tidak konsisten      |
 | Dengan Koherensi     | ⚠️ Lebih lambat              | ✅ Konsisten dan akurat |
+
+## 📌 Kesimpulan
+
+Pemilihan penggunaan protokol koherensi tergantung pada kebutuhan sistem:
+
+* Jika sistem mengutamakan **performa dan throughput**, serta toleran terhadap inkonsistensi, maka **tanpa koherensi** dapat digunakan.
+* Jika sistem menuntut **akurasi dan konsistensi nilai**, maka penggunaan **protokol koherensi cache seperti Write-Invalidate** sangat direkomendasikan, meski dengan biaya performa.
+
+Simulasi ini menunjukkan trade-off nyata antara **kecepatan** dan **keandalan data** dalam sistem multithread modern.
+
 
 
 
