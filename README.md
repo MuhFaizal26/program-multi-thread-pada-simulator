@@ -154,10 +154,10 @@ def plot_stats(no_coherence_stats, with_coherence_stats):
 
     plt.tight_layout()
     plt.show()
-```
 
 # Menampilkan grafik
 plot_stats(no_coherence_stats, with_coherence_stats)
+```
 
 ## 📊 Grafik Perbandingan Performa Cache
 
